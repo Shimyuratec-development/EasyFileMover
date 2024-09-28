@@ -1,0 +1,53 @@
+﻿<Window x:Class="EasyFileMover.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyFileMover"
+        mc:Ignorable="d"
+        Title="EasyFileMover" Height="430" Width="1200"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanMinimize">
+    <Grid Background="#393f4c">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <Grid Background="#485859" Height="60" Grid.ColumnSpan="2">
+            <Button Content="移動元フォルダを選択" Height="60" Width="120" Click="Button_Click1" Margin="10,0,0,0" HorizontalAlignment="Left"/>
+            <Button Content="移動先フォルダを選択" Height="60" Width="120" Click="Button_Click2" Margin="140,0,0,0" HorizontalAlignment="Left"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Label Content="移動元フォルダ" HorizontalAlignment="left"  VerticalContentAlignment="Center" Width="100" Foreground="White" Padding="10"/> 
+            <TextBox Name="FilePathTextBox1" Width="600" Height="50" VerticalContentAlignment="Center"  PreviewDragOver="textBoxDragOver" PreviewDrop="textBox1Drop" TextChanged="FilePathTextBox1_TextChanged"  HorizontalAlignment="Left" Margin="110,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Label Content="移動先フォルダ" HorizontalAlignment="left"  VerticalContentAlignment="Center" Width="100" Foreground="White" Padding="10"/>
+            <TextBox Name="FilePathTextBox2" Width="600" Height="50" VerticalContentAlignment="Center" PreviewDragOver="textBoxDragOver" PreviewDrop="textBox2Drop"  TextChanged="FilePathTextBox2_TextChanged" HorizontalAlignment="Left" Margin="110,0,0,0"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <CheckBox Name="checkremove" Content="移動完了後に元フォルダを削除する" IsChecked="{Binding IsChecked}" Margin="10" HorizontalAlignment="Center" Foreground="White"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="5">
+            <Button Content="開始を実行" Height="60" Width="120" Margin="140,0,0,0" Click="Run_Move"  HorizontalAlignment="Left"/>    
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Label Content="" HorizontalAlignment="left" Name="AlertTextBox1"  VerticalContentAlignment="Center" Width="800" Foreground="RosyBrown"  Padding="10"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="4">
+            <Label Content="" HorizontalAlignment="left" Name="AlertTextBox2"  VerticalContentAlignment="Center" Width="800" Foreground="RosyBrown"  Padding="10"/>
+        </Grid>
+    </Grid>
+</Window>
