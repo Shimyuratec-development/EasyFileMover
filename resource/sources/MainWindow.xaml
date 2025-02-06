@@ -1,0 +1,144 @@
+﻿<Window x:Class="EasyFileMover.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactions="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:local="clr-namespace:EasyFileMover"
+        mc:Ignorable="d"
+        Title="EasyFileMover" Height="660" Width="1200"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanMinimize"
+        Closing="Window_Closing" 
+        
+        >
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding WindowCloseMangageCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+    </Window.Resources>
+    <Grid Background="#393f4c" IsEnabled="{Binding WindowStateMain.IsEnable}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1139*" />
+            <ColumnDefinition Width="61*" />
+        </Grid.ColumnDefinitions>
+        <Grid Background="#485859" Grid.ColumnSpan="2">
+            <Button Content="移動するフォルダ・ファイルを選択" Height="60" Width="160" Margin="10,0,0,0" HorizontalAlignment="Left" Command="{Binding AddItemCommand}"/>
+            <Button Content="選択中の項目を移動元一覧から削除" Height="60" Width="200" Margin="180,0,0,0" HorizontalAlignment="Left" Command="{Binding DeleteListBoxContentCommand}" CommandParameter="{Binding SelectedItems, ElementName=FilePathTextBox1}" />
+            <Button Content="移動先フォルダを選択" Height="60" Width="120" Margin="390,0,0,0" HorizontalAlignment="Left" Command="{Binding AddItemToTextBoxByFileLauncherCommand}"/>
+            <Button Content="移動先フォルダの記載項目をリセット" Height="60" Width="190" Margin="520,0,0,0" HorizontalAlignment="Left" Command="{Binding ResetTextBoxCommand}"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.RowSpan="5">
+            <Label Content="移動元" HorizontalAlignment="left"  VerticalContentAlignment="Center" Width="60" Foreground="White" Padding="10"/>
+            <ListView Name="FilePathTextBox1" Margin="65,10,0,10"  SelectionMode="Extended" AllowDrop="True" HorizontalAlignment="Left" ItemsSource="{Binding FilePathItems}" Width="1070"  >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="850">
+                            <GridViewColumnHeader IsEnabled="False">
+                                <TextBlock Text="ファイル・フォルダ" FontWeight="Bold" />
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FilePath}" TextWrapping="Wrap"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="240">
+
+                            <GridViewColumnHeader IsEnabled="False" >
+                                <TextBlock Text="移動モード" FontWeight="Bold" />
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox Width="220" SelectedIndex="{Binding Mode,Mode=TwoWay}" IsEnabled="{Binding IsFolder}"  Visibility="{Binding IsFolder ,Converter={StaticResource BoolToVisibility}}">
+
+                                        <ComboBoxItem Content="フォルダを移動" />
+                                        <ComboBoxItem Content="フォルダの配下を移動" />
+                                        <ComboBoxItem Content="フォルダの配下を移動して削除" />
+                                    </ComboBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FilePath}" Width="100"/>
+                            <TextBlock Text="{Binding FilePath}" Width="100"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>-->
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Drop">
+                        <i:InvokeCommandAction Command="{Binding AddItemsCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <!--<ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border BorderBrush="Gray"  BorderThickness="0,0,0,1" Background="{TemplateBinding Background}">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="DarkBlue" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>-->
+            </ListView>
+        </Grid>
+        <Grid Grid.Row="7">
+            <Label Content="移動先" HorizontalAlignment="left" VerticalContentAlignment="Center" Width="100" Foreground="White" Padding="10"/>
+            <!--<TextBox Name="FilePathTextBox2" Width="600" Height="50" VerticalContentAlignment="Center" PreviewDragOver="textBoxDragOver" PreviewDrop="textBox2Drop"  TextChanged="FilePathTextBox2_TextChanged" HorizontalAlignment="Left" Margin="110,0,0,0"/>-->
+            <!--<TextBox Name="FilePathTextBox2" Width="600" Height="50" VerticalContentAlignment="Center"   TextChanged="FilePathTextBox2_TextChanged" HorizontalAlignment="Left" Margin="110,0,0,0"/>-->
+            <TextBox Name="FilePathTextBox2" Text="{Binding FilePathIteminTextBox.FilePath}" IsReadOnly="True" Width="1080" Height="50" VerticalContentAlignment="Center"  HorizontalAlignment="Left" Margin="65,5,0,5" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewDragOver">
+                        <i:InvokeCommandAction Command="{Binding ChangeDragOver}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="Drop">
+                        <i:InvokeCommandAction Command="{Binding AddItemToTextBoxByDropCommand}" PassEventArgsToCommand="True"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="9">
+            <!--<Button Content="開始を実行" Height="60" Width="120" Margin="140,0,0,0" Click="Run_Move"  HorizontalAlignment="Left"/>-->
+            <Button Content="実行" Height="60" Width="120" Margin="1019,0,0,0"   HorizontalAlignment="Left" IsEnabled="{Binding state.IsRunnable}" VerticalAlignment="Center" Command="{Binding RunMoveCommand}" CommandParameter="{Binding ElementName=FilePathTextBox1}"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="6">
+            <Label Content="{Binding AbortItem.Item}"  HorizontalAlignment="left" Name="AlertTextBox1"  VerticalContentAlignment="Center" Width="800" Foreground="RosyBrown"  Padding="10"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="8">
+            <Label Content="{Binding AbortItem2.Item}" HorizontalAlignment="left" Name="AlertTextBox2"  VerticalContentAlignment="Center" Width="800" Foreground="RosyBrown"  Padding="10"/>
+        </Grid>
+    </Grid>
+</Window>
